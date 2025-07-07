@@ -1,24 +1,29 @@
 import { images, offers } from "@/constants";
 import cn from 'clsx';
 import { Fragment } from "react";
-import { FlatList, Image, Pressable, ScrollView, Text, View } from "react-native";
+import { FlatList, Image, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 const Index = () => {
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-between flex-row my-5 px-5">
-        <View className="flex-start">
-          <Text className="small-bold text-primary">DELIVER TO</Text>
-          <Touchable
-          <Image
-            source={images.arrowDown}
-            className="size-3"
-            resizeMode="contain"
-          />
-        </View>
-      </View>
       <FlatList 
         data={offers}
+        ListHeaderComponent={() => (
+          <View className="flex-between flex-row my-5 px-5">
+            <View className="flex-start">
+              <Text className="small-bold text-primary">DELIVER TO</Text>
+              <TouchableOpacity className="flex-center flex-row gap-x-1 mt-0.5">
+                <Text className="paragraph-bold text-dark-100">Ghana</Text>
+                <Image
+                  source={images.arrowDown}
+                  className="size-3"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+            <Text>Cart</Text>
+          </View>
+        )}
         renderItem={({ item, index}) => {
           const isEven: boolean = index % 2 === 0;
           return (
@@ -28,8 +33,8 @@ const Index = () => {
                 style={{ backgroundColor: item.color }}
                 android_ripple={{ color: "#ffffff22" }}
                 >
-               {({ pressed }) => (
-                 <Fragment>
+              {({ pressed }) => (
+                <Fragment>
                   <View className={"h-full w-1/2"}>
                     <Image 
                       source={item.image} 
@@ -40,20 +45,21 @@ const Index = () => {
                   <View className={cn("offer-card_info", isEven ? 'pl-10' : 'pr-10')}>
                     <Text className="text-2xl font-quicksand-bold text-white leading-tight">{item.title}</Text>
                     <Image
-                     source={images.arrowRight}
-                     className="size-10"
-                     resizeMode="contain"
-                     tintColor="#ffffff"
+                      source={images.arrowRight}
+                      className="size-10"
+                      resizeMode="contain"
+                      tintColor="#ffffff"
                     />
                   </View>
-                 </Fragment>
-               )}
+                </Fragment>
+              )}
               </Pressable>
             </ScrollView>
           )
         }}
-      contentContainerClassName="pb-28 px-5"
+        contentContainerClassName="pb-28 px-5"
       />
+      
     </SafeAreaView>
   );
 }
